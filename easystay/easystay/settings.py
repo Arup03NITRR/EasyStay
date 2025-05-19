@@ -31,12 +31,29 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Custom Apps
+    'hotel',
+    'addon',
+    'user_dashboard',
+    'userauths',
+
+    # Third Party Apps
+    'import_export',
+    'crispy_forms',
+    'mathfilters',
+    'ckeditor_uploader',
+    'django_ckeditor_5',
+    'anymail',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -120,3 +137,96 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_SETTINGS = {
+    # ---------- Branding ----------
+    "site_title":  "Admin Panel",
+    "site_header": "EasyStay",
+    "site_brand":  "EasyStay",
+    #"site_logo":   "hotel/img/logo.png",   # static/hotel/img/logo.png
+    #"login_logo":  "hotel/img/logo_login.png",   # optional
+    #"site_logo_classes": "img-circle",
+    #"site_icon":  "hotel/img/favicon.png",  # 32×32 favicon
+    "welcome_sign": "Welcome to EasyStay Admin Panel",
+    "copyright":  "© 2025 EasyStay",
+
+    # ---------- Global Search ----------
+    "search_model": ["accounts.User", "booking.Reservation", "hotel.Room"],
+
+    # if your User model has an avatar/url field set it here
+    "user_avatar": None,
+
+    # ---------- Top Menu ----------
+    "topmenu_links": [
+        {"name": "Dashboard", "url": "admin:index", "permissions": ["accounts.view_user"]},
+        {"app":  "booking"},          # dropdown with all booking models
+        {"app":  "hotel"},            # dropdown with room & hotel models
+        {"app":  "payments"},
+        {"name": "Docs", "url": "https://grandstay.readthedocs.io", "new_window": True},
+    ],
+
+    # ---------- User Menu ----------
+    "usermenu_links": [
+        {"model": "accounts.user"},
+        {"name": "Support", "url": "mailto:support@grandstay.com"},
+    ],
+
+    # ---------- Sidebar ----------
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": ["sessions"],        # hide if you like
+    "hide_models": [],
+    "order_with_respect_to": [
+        "dashboard",                  # custom dashboard app first
+        "booking",
+        "booking.reservation",
+        "hotel",
+        "hotel.room",
+        "payments",
+        "accounts",
+    ],
+
+    # Custom quick links under specific apps
+    "custom_links": {
+        "booking": [
+            {
+                "name": "Bulk Check-in",
+                "url":  "bulk_checkin",          # admin view name
+                "icon": "fas fa-calendar-check",
+                "permissions": ["booking.change_reservation"],
+            }
+        ],
+    },
+
+    # ---------- Icons ----------
+    "icons": {
+        "booking": "fas fa-concierge-bell",
+        "booking.reservation": "fas fa-book",
+        "hotel": "fas fa-hotel",
+        "hotel.room": "fas fa-door-open",
+        "payments": "fas fa-credit-card",
+        "accounts": "fas fa-users-cog",
+        "accounts.user": "fas fa-user",
+    },
+    "default_icon_parents":  "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+
+    # ---------- Related Modal ----------
+    "related_modal_active": True,
+
+    # ---------- UI Tweaks ----------
+    "custom_css": "hotel/css/admin_custom.css",   # optional
+    "custom_js":  "hotel/js/admin_custom.js",
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": False,
+
+    # ---------- Change Form ----------
+    "changeform_format": "horizontal_tabs",         # keep default
+    "changeform_format_overrides": {
+        "booking.reservation": "collapsible",
+        "hotel.room": "vertical_tabs",
+    },
+
+    # ---------- Internationalisation ----------
+    "language_chooser": True,
+}
